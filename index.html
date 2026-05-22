@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>옷 색깔 매칭</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --bg: #f5f3ee;
+    --card: #ffffff;
+    --text: #2a2a2a;
+    --muted: #6b6b6b;
+    --accent: #4a6c8c;
+    --accent-2: #c97b5e;
+    --border: rgba(0,0,0,0.08);
+    --shadow: 0 6px 24px rgba(20, 20, 40, 0.07);
+    --shadow-hover: 0 12px 36px rgba(20, 20, 40, 0.12);
+  }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', 'Pretendard', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 36px 20px 80px;
+  }
+  header h1 {
+    margin: 0 0 6px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  header p {
+    margin: 0 0 32px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .picker {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px 22px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+  }
+
+  .tab-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    align-items: center;
+  }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .tab {
+    border: 1px solid var(--border);
+    background: #fafaf7;
+    color: var(--text);
+    padding: 9px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+  }
+  .tab:hover { background: #f0ede5; }
+  .tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .random-btn {
+    border: 1px solid var(--accent-2);
+    background: #fff;
+    color: var(--accent-2);
+    padding: 9px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.15s ease;
+  }
+  .random-btn:hover { background: var(--accent-2); color: #fff; }
+
+  .type-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .type {
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text);
+    padding: 7px 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .type:hover { background: #f5f3ee; }
+  .type.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+    gap: 10px;
+  }
+  .color-chip {
+    aspect-ratio: 1 / 1.05;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .color-chip:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+  .color-chip .swatch {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 12px;
+  }
+  .color-chip .label {
+    position: relative;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px 6px;
+    background: rgba(255,255,255,0.85);
+    color: #222;
+    border-radius: 0 0 12px 12px;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  .color-chip.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(74, 108, 140, 0.18);
+  }
+  .color-chip.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: var(--accent);
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .result { animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .result h2 {
+    font-size: 18px;
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  .result .summary {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 18px;
+  }
+  .result .summary strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .combo-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .combo {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 18px 14px 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    position: relative;
+  }
+  .combo:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .combo.signature { border: 2px solid var(--accent-2); }
+  .combo .badge {
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    background: var(--accent-2);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+  }
+  .combo-items {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 4px 0 6px;
+  }
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+  }
+  .item .icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .item .color-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06) inset, 0 2px 4px rgba(0,0,0,0.04);
+  }
+  .item.anchor .color-dot {
+    box-shadow: 0 0 0 3px var(--accent), 0 2px 6px rgba(0,0,0,0.06) inset;
+  }
+  .item.socks .color-dot {
+    border: 1px dashed rgba(0,0,0,0.25);
+  }
+  .item .name {
+    font-size: 10.5px;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+    max-width: 68px;
+    word-break: keep-all;
+    font-weight: 600;
+  }
+  .item .type-sub {
+    font-size: 9.5px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .item .role {
+    font-size: 9.5px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+  .item.anchor .role { color: var(--accent); }
+  .item.socks .role { color: #b4a59a; }
+
+  .combo .note {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    background: rgba(74, 108, 140, 0.06);
+    border-left: 3px solid var(--accent);
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin: 0;
+  }
+  .combo .sock-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0;
+    padding-left: 2px;
+  }
+  .combo .sock-note strong { color: var(--accent-2); }
+
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 0;
+    font-size: 14px;
+  }
+
+  .rationale {
+    margin-top: 32px;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+  .rationale summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+    list-style: none;
+  }
+  .rationale summary::-webkit-details-marker { display: none; }
+  .rationale summary::before {
+    content: '▸';
+    display: inline-block;
+    margin-right: 8px;
+    transition: transform 0.2s;
+    color: var(--accent);
+  }
+  .rationale[open] summary::before { transform: rotate(90deg); }
+  .rationale ul {
+    margin: 12px 0 6px;
+    padding-left: 20px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .rationale ul b { color: var(--accent); }
+  .rationale .src {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 6px 0 0;
+  }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 24px 16px 60px; }
+    header h1 { font-size: 24px; }
+    .color-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>👚 옷 색깔 매칭</h1>
+    <p>상의·하의·신발 중 어디부터든 골라 보세요. 종류까지 정하면 양말까지 자동으로 어울리게 추천해 드려요.</p>
+  </header>
+
+  <section class="picker">
+    <p class="section-label">① 어디부터 고르시겠어요?</p>
+    <div class="tab-row">
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-pos="top">👕 상의</button>
+        <button class="tab" data-pos="bottom">👖 하의</button>
+        <button class="tab" data-pos="shoes">👟 신발</button>
+      </div>
+      <button class="random-btn" id="randomBtn">🎲 랜덤 추천</button>
+    </div>
+
+    <p class="section-label" id="typeLabel">② 상의 종류</p>
+    <div class="type-row" id="typeRow"></div>
+
+    <p class="section-label" id="colorLabel">③ 상의 색 선택</p>
+    <div class="color-grid" id="colorGrid"></div>
+  </section>
+
+  <section class="result" id="result">
+    <p class="section-label">④ 추천 조합</p>
+    <h2 id="resultTitle">위에서 색을 골라 주세요</h2>
+    <p class="summary" id="resultSummary">고른 색에 어울리는 나머지 두 가지 + 양말을 보여드릴게요.</p>
+    <div class="combo-list" id="comboList">
+      <div class="empty-state">색을 선택하면 조합이 나타납니다</div>
+    </div>
+  </section>
+
+  <details class="rationale">
+    <summary>이 매칭은 어떻게 계산하나요?</summary>
+    <ul>
+      <li><b>3색 룰</b> — 한 룩의 색은 3개 이하 (무채색은 별도로 셈)</li>
+      <li><b>60-30-10 규칙</b> — 베이스 60%, 보조 30%, 포인트 10% 면적 비율</li>
+      <li><b>무채색 베이스</b> — 검정/흰색/회색/네이비/베이지/데님은 어떤 색에도 잘 맞음</li>
+      <li><b>톤온톤 · 톤인톤</b> — 같은 색 다른 명도(브라운+베이지) 또는 같은 명도 다른 색(파스텔끼리)</li>
+      <li><b>색온도 매칭</b> — 웜(빨·주·노·갈)끼리, 쿨(파·청·보)끼리 모으면 통일감</li>
+      <li><b>보색은 톤다운</b> — 빨강+초록처럼 보색은 한쪽을 무채색이나 어두운 톤으로</li>
+      <li><b>비비드 충돌 회피</b> — 채도 높은 비비드 컬러 두 개를 한 룩에 두지 않기</li>
+      <li><b>형식도(Formality) 매칭</b> — 슬랙스+구두처럼 격식 수준을 맞추면 룩이 무너지지 않음</li>
+      <li><b>양말 룰</b> — 정장은 하의 톤과 매치, 캐주얼은 발목양말, 운동화는 흰 양말이 기본</li>
+    </ul>
+    <p class="src">출처: 구글 검색 상위 패션 매거진·블로그(보그·코스모폴리탄·바자·무신사 매거진·핀터레스트 스타일 가이드 등)에서 반복적으로 등장하는 색상 매칭 원칙을 종합·점수화하여 적용.</p>
+  </details>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────
+  // 색상 DB
+  // ─────────────────────────────────────────────────────────
+  const COLORS = {
+    white:      { name:'화이트',     hex:'#f5f5f5', family:'neutral', temp:'neutral', tone:'light',  neutral:true },
+    black:      { name:'블랙',       hex:'#1a1a1a', family:'neutral', temp:'neutral', tone:'dark',   neutral:true },
+    gray:       { name:'그레이',     hex:'#909090', family:'neutral', temp:'neutral', tone:'mid',    neutral:true },
+    navy:       { name:'네이비',     hex:'#1e3a5f', family:'blue',    temp:'cool',    tone:'dark',   neutral:true },
+    denim:      { name:'진청',       hex:'#3d5a7a', family:'blue',    temp:'cool',    tone:'mid',    neutral:true, denim:true },
+    lightDenim: { name:'연청',       hex:'#7da3c2', family:'blue',    temp:'cool',    tone:'light',  denim:true },
+    beige:      { name:'베이지',     hex:'#d4b896', family:'brown',   temp:'warm',    tone:'light',  neutral:true },
+    brown:      { name:'브라운',     hex:'#6f4e37', family:'brown',   temp:'warm',    tone:'dark' },
+    camel:      { name:'카멜',       hex:'#c19a6b', family:'brown',   temp:'warm',    tone:'mid' },
+    khaki:      { name:'카키',       hex:'#6b7d3d', family:'green',   temp:'warm',    tone:'mid' },
+    red:        { name:'레드',       hex:'#d9342b', family:'red',     temp:'warm',    tone:'vivid' },
+    burgundy:   { name:'버건디',     hex:'#7a1f29', family:'red',     temp:'warm',    tone:'dark' },
+    orange:     { name:'오렌지',     hex:'#e87722', family:'orange',  temp:'warm',    tone:'vivid' },
+    mustard:    { name:'머스타드',   hex:'#c69214', family:'yellow',  temp:'warm',    tone:'mid' },
+    yellow:     { name:'옐로',       hex:'#f5c518', family:'yellow',  temp:'warm',    tone:'vivid' },
+    pink:       { name:'핑크',       hex:'#f4a7b9', family:'pink',    temp:'warm',    tone:'light' },
+    green:      { name:'그린',       hex:'#3a7d44', family:'green',   temp:'cool',    tone:'mid' },
+    mint:       { name:'민트',       hex:'#88c5b4', family:'green',   temp:'cool',    tone:'light' },
+    sky:        { name:'스카이블루', hex:'#7ec0e0', family:'blue',    temp:'cool',    tone:'light' },
+    blue:       { name:'블루',       hex:'#2563eb', family:'blue',    temp:'cool',    tone:'vivid' },
+    purple:     { name:'퍼플',       hex:'#7c4a89', family:'purple',  temp:'cool',    tone:'mid' },
+    lavender:   { name:'라벤더',     hex:'#b8a4d4', family:'purple',  temp:'cool',    tone:'light' },
+  };
+
+  // 포지션별 색 옵션
+  const POSITIONS = {
+    top: {
+      label: '상의',
+      colors: ['white','black','gray','navy','beige','brown','camel','khaki','red','burgundy','orange','mustard','yellow','pink','green','mint','sky','blue','purple','lavender']
+    },
+    bottom: {
+      label: '하의',
+      colors: ['black','white','gray','navy','denim','lightDenim','beige','brown','camel','khaki','burgundy','green']
+    },
+    shoes: {
+      label: '신발',
+      colors: ['white','black','brown','camel','gray','navy','burgundy']
+    },
+  };
+
+  // 종류 (각 포지션 대표 3가지) — formality: 0(가장 캐주얼) ~ 3(가장 포멀)
+  const ITEM_TYPES = {
+    top: [
+      { id:'tshirt', name:'티셔츠', emoji:'👕', formality:1 },
+      { id:'knit',   name:'니트',   emoji:'🧶', formality:2 },
+      { id:'shirt',  name:'셔츠',   emoji:'👔', formality:3 },
+    ],
+    bottom: [
+      { id:'shorts', name:'반바지', emoji:'🩳', formality:0 },
+      { id:'jeans',  name:'청바지', emoji:'👖', formality:1 },
+      { id:'slacks', name:'슬랙스', emoji:'👖', formality:3 },
+    ],
+    shoes: [
+      { id:'sneakers',   name:'운동화', emoji:'👟', formality:1 },
+      { id:'loafers',    name:'로퍼',   emoji:'👞', formality:2 },
+      { id:'dressShoes', name:'구두',   emoji:'👞', formality:3 },
+    ],
+  };
+
+  const SOCK_TYPES = {
+    noShow: { name:'발목양말', emoji:'🧦' },
+    crew:   { name:'크루양말', emoji:'🧦' },
+    dress:  { name:'정장양말', emoji:'🧦' },
+  };
+
+  // 시그니처 룩
+  const SIGNATURE = [
+    { top:'white',   bottom:'denim',     shoes:'white', tag:'국민 데일리룩' },
+    { top:'black',   bottom:'denim',     shoes:'white', tag:'기본 캐주얼' },
+    { top:'white',   bottom:'black',     shoes:'white', tag:'클래식 모노톤' },
+    { top:'navy',    bottom:'beige',     shoes:'brown', tag:'단정한 비즈니스 캐주얼' },
+    { top:'navy',    bottom:'white',     shoes:'white', tag:'마린 룩' },
+    { top:'beige',   bottom:'brown',     shoes:'brown', tag:'어스 톤온톤' },
+    { top:'gray',    bottom:'black',     shoes:'black', tag:'도시 모노톤' },
+    { top:'white',   bottom:'beige',     shoes:'white', tag:'여름 톤온톤' },
+    { top:'pink',    bottom:'white',     shoes:'white', tag:'페미닌' },
+    { top:'mustard', bottom:'denim',     shoes:'brown', tag:'레트로 캐주얼' },
+    { top:'red',     bottom:'black',     shoes:'white', tag:'레드 포인트룩' },
+    { top:'mint',    bottom:'white',     shoes:'white', tag:'산뜻한 봄 룩' },
+    { top:'khaki',   bottom:'beige',     shoes:'brown', tag:'어스 캐주얼' },
+    { top:'sky',     bottom:'white',     shoes:'white', tag:'청량한 봄 룩' },
+    { top:'black',   bottom:'beige',     shoes:'white', tag:'미니멀 모던' },
+    { top:'white',   bottom:'navy',      shoes:'white', tag:'마린 클래식' },
+    { top:'beige',   bottom:'denim',     shoes:'white', tag:'캐주얼 베이직' },
+    { top:'green',   bottom:'beige',     shoes:'brown', tag:'올리브 어스' },
+    { top:'purple',  bottom:'gray',      shoes:'black', tag:'시크 보라' },
+  ];
+
+  // ─────────────────────────────────────────────────────────
+  // 색 매칭 점수
+  // ─────────────────────────────────────────────────────────
+  const WHEEL = ['red','orange','yellow','green','blue','purple','pink'];
+  function score(a, b) {
+    if (!a || !b) return 0;
+    const A = COLORS[a], B = COLORS[b];
+    let s = 0;
+    if (A.neutral || B.neutral) s += 3;
+    if (A.neutral && B.neutral) s += 2;
+    if (A.family === B.family && A.tone !== B.tone) s += 2.5;
+    if (A.temp !== 'neutral' && B.temp !== 'neutral') {
+      if (A.temp === B.temp) s += 1; else s -= 0.5;
+    }
+    const ai = WHEEL.indexOf(A.family), bi = WHEEL.indexOf(B.family);
+    if (ai !== -1 && bi !== -1) {
+      let d = Math.abs(ai - bi);
+      d = Math.min(d, WHEEL.length - d);
+      if (d === 1) s += 1;
+      if (d === 2 || d === 3) {
+        if (A.tone !== 'vivid' || B.tone !== 'vivid') s += 0.5;
+      }
+    }
+    if (A.tone === 'vivid' && B.tone === 'vivid'
+        && A.family !== B.family && !A.neutral && !B.neutral) s -= 4;
+    if (A.denim || B.denim) s += 0.8;
+    return s;
+  }
+  function comboScore(t, b, s) { return score(t,b) + score(t,s) + score(b,s); }
+
+  // ─────────────────────────────────────────────────────────
+  // 종류·양말 추천
+  // ─────────────────────────────────────────────────────────
+  function getType(position, typeId) {
+    return ITEM_TYPES[position].find(t => t.id === typeId);
+  }
+  function pickTypeByFormality(position, target) {
+    // 같은 형식도가 있으면 그걸로, 아니면 가장 가까운 걸로 (동률시 더 격식 있는 쪽)
+    return ITEM_TYPES[position].reduce((best, t) => {
+      const d  = Math.abs(t.formality - target);
+      const db = Math.abs(best.formality - target);
+      if (d < db) return t;
+      if (d === db && t.formality > best.formality) return t;
+      return best;
+    });
+  }
+  function recommendSocks(bottom, shoes, avgFormality) {
+    const bot = COLORS[bottom], sh = COLORS[shoes];
+    if (avgFormality >= 2.3) {
+      // 포멀 — 하의 톤과 매치
+      if (bot.tone === 'dark' || bot.family === 'neutral' || bot.neutral) {
+        return { type:'dress', color:bottom, note:'하의 톤에 맞춘 정장양말 — 격식의 정석' };
+      }
+      return { type:'dress', color:'black', note:'블랙 정장양말 — 한 톤 어둡게' };
+    }
+    if (avgFormality <= 1.2) {
+      // 캐주얼 — 발목양말
+      return { type:'noShow', color: sh.tone === 'dark' ? 'black' : 'white',
+        note:'발목양말 — 캐주얼의 정답' };
+    }
+    // 중간
+    return { type:'crew', color:'white', note:'흰 크루양말 — 무난한 중간' };
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 추천 조합 생성
+  // ─────────────────────────────────────────────────────────
+  function generateCombos(anchorPos, anchorColor, anchorTypeId, count = 6) {
+    const positions = ['top','bottom','shoes'];
+    const others = positions.filter(p => p !== anchorPos);
+    const [p1, p2] = others;
+
+    const candidates = [];
+    for (const c1 of POSITIONS[p1].colors) {
+      for (const c2 of POSITIONS[p2].colors) {
+        if (c1 === c2 && c1 === anchorColor) continue;
+        const combo = { top:null, bottom:null, shoes:null };
+        combo[anchorPos] = anchorColor;
+        combo[p1] = c1;
+        combo[p2] = c2;
+        combo.score = comboScore(combo.top, combo.bottom, combo.shoes);
+        candidates.push(combo);
+      }
+    }
+    candidates.sort((a, b) => b.score - a.score);
+
+    // 시그니처 표시
+    const sigs = SIGNATURE.filter(s => s[anchorPos] === anchorColor);
+    const sigKeys = new Set(sigs.map(s => `${s.top}|${s.bottom}|${s.shoes}`));
+    for (const c of candidates) {
+      const key = `${c.top}|${c.bottom}|${c.shoes}`;
+      c.signature = sigKeys.has(key);
+      if (c.signature) {
+        const sig = sigs.find(s => s.top===c.top && s.bottom===c.bottom && s.shoes===c.shoes);
+        c.signatureTag = sig?.tag;
+      }
+    }
+
+    // 시그니처 우선 + 중복 제거
+    const seen = new Set();
+    const out = [];
+    const sorted = [
+      ...candidates.filter(c => c.signature),
+      ...candidates.filter(c => !c.signature),
+    ];
+    for (const c of sorted) {
+      const key = `${c.top}|${c.bottom}|${c.shoes}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push(c);
+      if (out.length >= count) break;
+    }
+
+    // 종류 및 양말 부여
+    const anchorType = getType(anchorPos, anchorTypeId);
+    const targetFormality = anchorType.formality;
+    for (const c of out) {
+      c.topType    = anchorPos === 'top'    ? anchorTypeId : pickTypeByFormality('top', targetFormality).id;
+      c.bottomType = anchorPos === 'bottom' ? anchorTypeId : pickTypeByFormality('bottom', targetFormality).id;
+      c.shoesType  = anchorPos === 'shoes'  ? anchorTypeId : pickTypeByFormality('shoes', targetFormality).id;
+      const avgF = (
+        getType('top', c.topType).formality +
+        getType('bottom', c.bottomType).formality +
+        getType('shoes', c.shoesType).formality
+      ) / 3;
+      c.avgFormality = avgF;
+      c.socks = recommendSocks(c.bottom, c.shoes, avgF);
+    }
+    return out;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // 노트 자동 생성
+  // ─────────────────────────────────────────────────────────
+  function describeCombo(c) {
+    const cs = [COLORS[c.top], COLORS[c.bottom], COLORS[c.shoes]];
+    const tags = [];
+    const trueNeutrals = cs.filter(x => x.family === 'neutral').length;
+    const pseudoNeutrals = cs.filter(x => x.neutral && x.family !== 'neutral').length;
+    const families = [...new Set(cs.map(x => x.family))];
+    const tones = cs.map(x => x.tone);
+    const hasDenim = cs.some(x => x.denim);
+
+    if (c.signatureTag) tags.push(`⭐ ${c.signatureTag}`);
+    if (trueNeutrals === 3) tags.push('완전한 무채색 모노톤');
+    else if (trueNeutrals + pseudoNeutrals === 3) tags.push('안전한 무채색 베이스 룩');
+    else if (trueNeutrals + pseudoNeutrals === 2) tags.push('무채색 베이스 + 포인트 컬러');
+
+    if (families.length === 1 && families[0] !== 'neutral') {
+      const famKor = { red:'레드', orange:'오렌지', yellow:'옐로', green:'그린',
+        blue:'블루', purple:'퍼플', pink:'핑크', brown:'브라운' }[families[0]] || families[0];
+      tags.push(`${famKor} 톤온톤`);
+    }
+    if (cs.every(x => ['brown','green','yellow','neutral'].includes(x.family) && x.temp !== 'cool')) {
+      if (!tags.some(t => t.includes('어스'))) tags.push('어스 톤 통일');
+    }
+    if (tones.every(t => t === 'light')) tags.push('파스텔 톤 통일');
+    if (hasDenim && !tags.some(t => t.includes('데님'))) tags.push('데님 베이스 캐주얼');
+    if (tones.includes('dark') && tones.includes('light') && !tones.includes('vivid')) {
+      tags.push('명도 대비로 또렷한 인상');
+    }
+    const vivids = cs.filter(x => x.tone === 'vivid' && !x.neutral).length;
+    if (vivids === 1 && trueNeutrals + pseudoNeutrals >= 2) {
+      tags.push('비비드 컬러 1점만 살린 포인트룩');
+    }
+    if (c.avgFormality >= 2.3) tags.push('포멀·세미포멀 형식 매칭');
+    else if (c.avgFormality <= 1) tags.push('데일리 캐주얼 형식 매칭');
+
+    if (tags.length === 0) tags.push('균형 잡힌 조합');
+    return tags.slice(0, 3).join(' · ');
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // UI
+  // ─────────────────────────────────────────────────────────
+  const tabsEl = document.getElementById('tabs');
+  const typeRow = document.getElementById('typeRow');
+  const colorGrid = document.getElementById('colorGrid');
+  const typeLabel = document.getElementById('typeLabel');
+  const colorLabel = document.getElementById('colorLabel');
+  const comboList = document.getElementById('comboList');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultSummary = document.getElementById('resultSummary');
+  const randomBtn = document.getElementById('randomBtn');
+
+  const state = {
+    anchorPos: 'top',
+    anchorType: 'tshirt',
+    anchorColor: null,
+  };
+
+  function setAnchorPos(pos, opts = {}) {
+    state.anchorPos = pos;
+    state.anchorType = opts.type || ITEM_TYPES[pos][0].id;
+    state.anchorColor = opts.color || null;
+    tabsEl.querySelectorAll('.tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.pos === pos);
+    });
+    typeLabel.textContent = `② ${POSITIONS[pos].label} 종류`;
+    colorLabel.textContent = `③ ${POSITIONS[pos].label} 색 선택`;
+    renderTypePicker();
+    renderColorGrid();
+    if (state.anchorColor) renderResult();
+    else renderEmpty();
+  }
+
+  function setAnchorType(typeId) {
+    state.anchorType = typeId;
+    typeRow.querySelectorAll('.type').forEach(b => {
+      b.classList.toggle('active', b.dataset.type === typeId);
+    });
+    if (state.anchorColor) renderResult();
+  }
+
+  function renderTypePicker() {
+    const types = ITEM_TYPES[state.anchorPos];
+    typeRow.innerHTML = types.map(t => {
+      const active = t.id === state.anchorType ? ' active' : '';
+      return `<button class="type${active}" data-type="${t.id}"><span>${t.emoji}</span><span>${t.name}</span></button>`;
+    }).join('');
+    typeRow.querySelectorAll('.type').forEach(b => {
+      b.addEventListener('click', () => setAnchorType(b.dataset.type));
+    });
+  }
+
+  function renderColorGrid() {
+    const colors = POSITIONS[state.anchorPos].colors;
+    colorGrid.innerHTML = colors.map(id => {
+      const c = COLORS[id];
+      const sel = id === state.anchorColor ? ' selected' : '';
+      return `
+        <button class="color-chip${sel}" data-id="${id}" aria-label="${POSITIONS[state.anchorPos].label} ${c.name}">
+          <span class="swatch" style="background:${c.hex};"></span>
+          <span class="label">${c.name}</span>
+        </button>
+      `;
+    }).join('');
+    colorGrid.querySelectorAll('.color-chip').forEach(btn => {
+      btn.addEventListener('click', () => selectColor(btn.dataset.id));
+    });
+  }
+
+  function selectColor(id) {
+    state.anchorColor = id;
+    colorGrid.querySelectorAll('.color-chip').forEach(b => {
+      b.classList.toggle('selected', b.dataset.id === id);
+    });
+    renderResult();
+  }
+
+  function renderEmpty() {
+    resultTitle.textContent = '위에서 색을 골라 주세요';
+    resultSummary.textContent = '고른 색에 어울리는 나머지 두 가지 + 양말을 보여드릴게요.';
+    comboList.innerHTML = `<div class="empty-state">색을 선택하면 조합이 나타납니다</div>`;
+  }
+
+  function renderResult() {
+    const { anchorPos, anchorColor, anchorType } = state;
+    if (!anchorColor) return renderEmpty();
+
+    const anchor = COLORS[anchorColor];
+    const aType = getType(anchorPos, anchorType);
+    const combos = generateCombos(anchorPos, anchorColor, anchorType, 6);
+
+    resultTitle.textContent =
+      `${POSITIONS[anchorPos].label}가 ${anchor.name} ${aType.name}일 때 어울리는 조합`;
+    resultSummary.innerHTML =
+      `<strong>${combos.length}가지</strong> 조합 · 색·형식도·양말까지 자동 매칭`;
+
+    const ROLE = { top:'상의', bottom:'하의', shoes:'신발' };
+
+    comboList.innerHTML = combos.map(c => {
+      const isAnchor = (pos) => pos === anchorPos ? ' anchor' : '';
+      const item = (pos) => {
+        const col = COLORS[c[pos]];
+        const t = getType(pos, c[pos + 'Type']);
+        return `
+          <div class="item${isAnchor(pos)}">
+            <div class="icon">${t.emoji}</div>
+            <div class="color-dot" style="background:${col.hex};" title="${ROLE[pos]}: ${col.name} ${t.name}"></div>
+            <div class="name">${col.name}</div>
+            <div class="type-sub">${t.name}</div>
+            <div class="role">${ROLE[pos]}</div>
+          </div>
+        `;
+      };
+      const sockCol = COLORS[c.socks.color];
+      const sockTy = SOCK_TYPES[c.socks.type];
+      const sockItem = `
+        <div class="item socks">
+          <div class="icon">${sockTy.emoji}</div>
+          <div class="color-dot" style="background:${sockCol.hex};" title="양말: ${sockCol.name} ${sockTy.name}"></div>
+          <div class="name">${sockCol.name}</div>
+          <div class="type-sub">${sockTy.name}</div>
+          <div class="role">양말</div>
+        </div>
+      `;
+      const badge = c.signature ? `<span class="badge">⭐ 시그니처</span>` : '';
+      return `
+        <article class="combo${c.signature ? ' signature' : ''}">
+          ${badge}
+          <div class="combo-items">
+            ${item('top')}
+            ${item('bottom')}
+            ${item('shoes')}
+            ${sockItem}
+          </div>
+          <p class="note">${escapeHtml(describeCombo(c))}</p>
+          <p class="sock-note"><strong>🧦 양말:</strong> ${escapeHtml(c.socks.note)}</p>
+        </article>
+      `;
+    }).join('');
+
+    document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function escapeHtml(s) {
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function pickRandom() {
+    const positions = Object.keys(POSITIONS);
+    const pos = positions[Math.floor(Math.random() * positions.length)];
+    const colors = POSITIONS[pos].colors;
+    const col = colors[Math.floor(Math.random() * colors.length)];
+    const types = ITEM_TYPES[pos];
+    const type = types[Math.floor(Math.random() * types.length)].id;
+    setAnchorPos(pos, { color: col, type });
+  }
+
+  tabsEl.querySelectorAll('.tab').forEach(b => {
+    b.addEventListener('click', () => setAnchorPos(b.dataset.pos));
+  });
+  randomBtn.addEventListener('click', pickRandom);
+
+  setAnchorPos('top');
+</script>
+</body>
+</html>
