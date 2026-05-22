@@ -13,6 +13,7 @@
     --muted: #6b6b6b;
     --accent: #4a6c8c;
     --accent-2: #c97b5e;
+    --danger: #d04848;
     --border: rgba(0,0,0,0.08);
     --shadow: 0 6px 24px rgba(20, 20, 40, 0.07);
     --shadow-hover: 0 12px 36px rgba(20, 20, 40, 0.12);
@@ -54,6 +55,183 @@
     gap: 6px;
   }
 
+  /* ─── Login screen ─── */
+  .login-screen {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+  }
+  .login-card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+  }
+  .login-card h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .login-card p {
+    margin: 0 0 22px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .login-card small {
+    font-size: 11px;
+    color: #999;
+  }
+  #loginForm {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  #loginInput {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  #loginInput:focus { border-color: var(--accent); }
+  #loginForm button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  #loginForm button:hover { background: #3a5876; }
+  .recent-users { margin-top: 16px; }
+  .recent-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  .recent-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  .recent-chip {
+    background: #fafaf7;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .recent-chip:hover { background: #f0ede5; }
+
+  /* ─── User bar ─── */
+  .user-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .user-avatar {
+    font-size: 18px;
+  }
+  .link-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+    padding: 4px 8px;
+  }
+  .link-btn:hover { color: var(--danger); }
+
+  /* ─── Main tabs ─── */
+  .main-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: var(--shadow);
+    margin-bottom: 22px;
+    overflow-x: auto;
+  }
+  .main-tab {
+    flex: 1;
+    min-width: max-content;
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    transition: background 0.15s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .main-tab:hover { background: #fafaf7; }
+  .main-tab.active {
+    background: var(--accent);
+    color: #fff;
+  }
+  .count-badge {
+    background: rgba(0,0,0,0.08);
+    color: var(--muted);
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 18px;
+    text-align: center;
+  }
+  .main-tab.active .count-badge {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+  }
+
+  /* ─── View shared ─── */
+  .view h2 {
+    font-size: 20px;
+    margin: 0 0 4px;
+    font-weight: 700;
+  }
+  .view-desc {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 22px;
+  }
+
   .picker {
     background: var(--card);
     border-radius: 18px;
@@ -61,7 +239,6 @@
     box-shadow: var(--shadow);
     margin-bottom: 28px;
   }
-
   .tab-row {
     display: flex;
     flex-wrap: wrap;
@@ -130,6 +307,26 @@
     background: var(--accent);
     color: #fff;
     border-color: var(--accent);
+  }
+
+  .wardrobe-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #fafaf7;
+    border-radius: 10px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .wardrobe-toggle input { cursor: pointer; }
+  .wardrobe-toggle .hint {
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: auto;
   }
 
   .color-grid {
@@ -242,6 +439,32 @@
     border-radius: 999px;
     letter-spacing: 0.5px;
   }
+  .fav-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--border);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    color: #c97b5e;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .fav-btn:hover { transform: scale(1.1); background: #fff; }
+  .fav-btn.on {
+    background: var(--accent-2);
+    color: #fff;
+    border-color: var(--accent-2);
+  }
+
   .combo-items {
     display: flex;
     align-items: flex-start;
@@ -257,10 +480,7 @@
     flex: 1;
     min-width: 0;
   }
-  .item .icon {
-    font-size: 22px;
-    line-height: 1;
-  }
+  .item .icon { font-size: 22px; line-height: 1; }
   .item .color-dot {
     width: 34px;
     height: 34px;
@@ -271,9 +491,7 @@
   .item.anchor .color-dot {
     box-shadow: 0 0 0 3px var(--accent), 0 2px 6px rgba(0,0,0,0.06) inset;
   }
-  .item.socks .color-dot {
-    border: 1px dashed rgba(0,0,0,0.25);
-  }
+  .item.socks .color-dot { border: 1px dashed rgba(0,0,0,0.25); }
   .item .name {
     font-size: 10.5px;
     color: var(--text);
@@ -322,7 +540,166 @@
     color: var(--muted);
     padding: 40px 0;
     font-size: 14px;
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
   }
+  .empty-state-small {
+    color: var(--muted);
+    padding: 16px 0;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* ─── Wardrobe view ─── */
+  .wardrobe-section {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 18px 18px 16px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+  }
+  .wardrobe-section h3 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wardrobe-section h3 .count {
+    background: #fafaf7;
+    color: var(--muted);
+    padding: 2px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  .add-form {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .add-form select {
+    flex: 1;
+    min-width: 100px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    background: #fff;
+    cursor: pointer;
+  }
+  .add-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .add-btn:hover:not(:disabled) { background: #3a5876; }
+  .add-btn:disabled { opacity: 0.6; cursor: default; }
+
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .wardrobe-item {
+    background: #fafaf7;
+    border-radius: 10px;
+    padding: 10px 8px 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+  }
+  .wardrobe-item .icon { font-size: 20px; }
+  .wardrobe-item .color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+  .wardrobe-item .info { flex: 1; min-width: 0; }
+  .wardrobe-item .name {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .wardrobe-item .type-sub {
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.2;
+  }
+  .remove-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+  .remove-btn:hover { background: #ffd6d6; color: var(--danger); }
+
+  /* ─── History view ─── */
+  .history-list {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .history-item:last-child { border-bottom: none; }
+  .history-item:hover { background: #fafaf7; }
+  .hist-color-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+  .hist-info { flex: 1; min-width: 0; }
+  .hist-title {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .hist-time {
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .apply-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .apply-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
   .rationale {
     margin-top: 32px;
@@ -365,6 +742,7 @@
     .wrap { padding: 24px 16px 60px; }
     header h1 { font-size: 24px; }
     .color-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+    .main-tab { padding: 9px 10px; font-size: 12px; }
   }
 </style>
 </head>
@@ -372,56 +750,117 @@
 <div class="wrap">
   <header>
     <h1>👚 옷 색깔 매칭</h1>
-    <p>상의·하의·신발 중 어디부터든 골라 보세요. 종류까지 정하면 양말까지 자동으로 어울리게 추천해 드려요.</p>
+    <p>로그인하면 즐겨찾기·옷장·히스토리가 저장되고, 옷장에 있는 옷만으로도 추천받을 수 있어요.</p>
   </header>
 
-  <section class="picker">
-    <p class="section-label">① 어디부터 고르시겠어요?</p>
-    <div class="tab-row">
-      <div class="tabs" id="tabs">
-        <button class="tab active" data-pos="top">👕 상의</button>
-        <button class="tab" data-pos="bottom">👖 하의</button>
-        <button class="tab" data-pos="shoes">👟 신발</button>
+  <!-- Login screen -->
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <h2>시작하기</h2>
+      <p>이름을 입력하면 즐겨찾기·옷장·히스토리가 저장됩니다.<br><small>(이 브라우저의 로컬 저장소에만 기록됩니다)</small></p>
+      <form id="loginForm">
+        <input type="text" id="loginInput" placeholder="이름 또는 닉네임" maxlength="20" required autocomplete="off">
+        <button type="submit">시작</button>
+      </form>
+      <div class="recent-users" id="recentUsers"></div>
+    </div>
+  </section>
+
+  <!-- App view -->
+  <div class="app-view" id="appView" hidden>
+    <div class="user-bar">
+      <div class="user-info">
+        <span class="user-avatar">👤</span>
+        <strong id="userName"></strong>
       </div>
-      <button class="random-btn" id="randomBtn">🎲 랜덤 추천</button>
+      <button class="link-btn" id="logoutBtn">로그아웃</button>
     </div>
 
-    <p class="section-label" id="typeLabel">② 상의 종류</p>
-    <div class="type-row" id="typeRow"></div>
+    <nav class="main-tabs">
+      <button class="main-tab active" data-view="match">🎨 매칭</button>
+      <button class="main-tab" data-view="favs">♡ 즐겨찾기 <span class="count-badge" id="favCount">0</span></button>
+      <button class="main-tab" data-view="wardrobe">👔 옷장 <span class="count-badge" id="wardrobeCount">0</span></button>
+      <button class="main-tab" data-view="history">🕐 히스토리</button>
+    </nav>
 
-    <p class="section-label" id="colorLabel">③ 상의 색 선택</p>
-    <div class="color-grid" id="colorGrid"></div>
-  </section>
+    <!-- Match view -->
+    <section class="view" id="matchView">
+      <section class="picker">
+        <p class="section-label">① 어디부터 고르시겠어요?</p>
+        <div class="tab-row">
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-pos="top">👕 상의</button>
+            <button class="tab" data-pos="bottom">👖 하의</button>
+            <button class="tab" data-pos="shoes">👟 신발</button>
+          </div>
+          <button class="random-btn" id="randomBtn">🎲 랜덤 추천</button>
+        </div>
 
-  <section class="result" id="result">
-    <p class="section-label">④ 추천 조합</p>
-    <h2 id="resultTitle">위에서 색을 골라 주세요</h2>
-    <p class="summary" id="resultSummary">고른 색에 어울리는 나머지 두 가지 + 양말을 보여드릴게요.</p>
-    <div class="combo-list" id="comboList">
-      <div class="empty-state">색을 선택하면 조합이 나타납니다</div>
-    </div>
-  </section>
+        <p class="section-label" id="typeLabel">② 상의 종류</p>
+        <div class="type-row" id="typeRow"></div>
 
-  <details class="rationale">
-    <summary>이 매칭은 어떻게 계산하나요?</summary>
-    <ul>
-      <li><b>3색 룰</b> — 한 룩의 색은 3개 이하 (무채색은 별도로 셈)</li>
-      <li><b>60-30-10 규칙</b> — 베이스 60%, 보조 30%, 포인트 10% 면적 비율</li>
-      <li><b>무채색 베이스</b> — 검정/흰색/회색/네이비/베이지/데님은 어떤 색에도 잘 맞음</li>
-      <li><b>톤온톤 · 톤인톤</b> — 같은 색 다른 명도(브라운+베이지) 또는 같은 명도 다른 색(파스텔끼리)</li>
-      <li><b>색온도 매칭</b> — 웜(빨·주·노·갈)끼리, 쿨(파·청·보)끼리 모으면 통일감</li>
-      <li><b>보색은 톤다운</b> — 빨강+초록처럼 보색은 한쪽을 무채색이나 어두운 톤으로</li>
-      <li><b>비비드 충돌 회피</b> — 채도 높은 비비드 컬러 두 개를 한 룩에 두지 않기</li>
-      <li><b>형식도(Formality) 매칭</b> — 슬랙스+구두처럼 격식 수준을 맞추면 룩이 무너지지 않음</li>
-      <li><b>양말 룰</b> — 정장은 하의 톤과 매치, 캐주얼은 발목양말, 운동화는 흰 양말이 기본</li>
-    </ul>
-    <p class="src">출처: 구글 검색 상위 패션 매거진·블로그(보그·코스모폴리탄·바자·무신사 매거진·핀터레스트 스타일 가이드 등)에서 반복적으로 등장하는 색상 매칭 원칙을 종합·점수화하여 적용.</p>
-  </details>
+        <p class="section-label" id="colorLabel">③ 상의 색 선택</p>
+        <div class="color-grid" id="colorGrid"></div>
+
+        <label class="wardrobe-toggle">
+          <input type="checkbox" id="wardrobeOnlyChk">
+          <span>내 옷장에 있는 옷만으로 추천</span>
+          <span class="hint" id="wardrobeHint"></span>
+        </label>
+      </section>
+
+      <section class="result" id="result">
+        <p class="section-label">④ 추천 조합</p>
+        <h2 id="resultTitle">위에서 색을 골라 주세요</h2>
+        <p class="summary" id="resultSummary">고른 색에 어울리는 나머지 두 가지 + 양말을 보여드릴게요.</p>
+        <div class="combo-list" id="comboList">
+          <div class="empty-state">색을 선택하면 조합이 나타납니다</div>
+        </div>
+      </section>
+
+      <details class="rationale">
+        <summary>이 매칭은 어떻게 계산하나요?</summary>
+        <ul>
+          <li><b>3색 룰</b> — 한 룩의 색은 3개 이하 (무채색은 별도로 셈)</li>
+          <li><b>60-30-10 규칙</b> — 베이스 60%, 보조 30%, 포인트 10% 면적 비율</li>
+          <li><b>무채색 베이스</b> — 검정/흰색/회색/네이비/베이지/데님은 어떤 색에도 잘 맞음</li>
+          <li><b>톤온톤 · 톤인톤</b> — 같은 색 다른 명도(브라운+베이지) 또는 같은 명도 다른 색(파스텔끼리)</li>
+          <li><b>색온도 매칭</b> — 웜(빨·주·노·갈)끼리, 쿨(파·청·보)끼리 모으면 통일감</li>
+          <li><b>보색은 톤다운</b> — 빨강+초록처럼 보색은 한쪽을 무채색이나 어두운 톤으로</li>
+          <li><b>비비드 충돌 회피</b> — 채도 높은 비비드 컬러 두 개를 한 룩에 두지 않기</li>
+          <li><b>형식도(Formality) 매칭</b> — 슬랙스+구두처럼 격식 수준을 맞추면 룩이 무너지지 않음</li>
+          <li><b>양말 룰</b> — 정장은 하의 톤과 매치, 캐주얼은 발목양말, 운동화는 흰 양말이 기본</li>
+        </ul>
+        <p class="src">출처: 구글 검색 상위 패션 매거진·블로그(보그·코스모폴리탄·바자·무신사 매거진·핀터레스트 스타일 가이드 등)에서 반복적으로 등장하는 색상 매칭 원칙을 종합·점수화하여 적용.</p>
+      </details>
+    </section>
+
+    <!-- Favorites view -->
+    <section class="view" id="favsView" hidden>
+      <h2>♡ 즐겨찾기</h2>
+      <p class="view-desc">매칭 탭에서 ♡ 버튼을 누른 조합이 모입니다.</p>
+      <div class="combo-list" id="favsList"></div>
+    </section>
+
+    <!-- Wardrobe view -->
+    <section class="view" id="wardrobeView" hidden>
+      <h2>👔 내 옷장</h2>
+      <p class="view-desc">가지고 있는 옷을 등록하면 '옷장 안의 옷만으로 추천' 토글을 켜서 현실적인 매칭을 받을 수 있어요.</p>
+      <div id="wardrobeSections"></div>
+    </section>
+
+    <!-- History view -->
+    <section class="view" id="historyView" hidden>
+      <h2>🕐 히스토리</h2>
+      <p class="view-desc">최근 30개의 선택이 자동으로 기록됩니다.</p>
+      <div id="historyList"></div>
+    </section>
+  </div>
 </div>
 
 <script>
   // ─────────────────────────────────────────────────────────
-  // 색상 DB
+  // Color DB
   // ─────────────────────────────────────────────────────────
   const COLORS = {
     white:      { name:'화이트',     hex:'#f5f5f5', family:'neutral', temp:'neutral', tone:'light',  neutral:true },
@@ -448,23 +887,12 @@
     lavender:   { name:'라벤더',     hex:'#b8a4d4', family:'purple',  temp:'cool',    tone:'light' },
   };
 
-  // 포지션별 색 옵션
   const POSITIONS = {
-    top: {
-      label: '상의',
-      colors: ['white','black','gray','navy','beige','brown','camel','khaki','red','burgundy','orange','mustard','yellow','pink','green','mint','sky','blue','purple','lavender']
-    },
-    bottom: {
-      label: '하의',
-      colors: ['black','white','gray','navy','denim','lightDenim','beige','brown','camel','khaki','burgundy','green']
-    },
-    shoes: {
-      label: '신발',
-      colors: ['white','black','brown','camel','gray','navy','burgundy']
-    },
+    top:    { label:'상의', colors:['white','black','gray','navy','beige','brown','camel','khaki','red','burgundy','orange','mustard','yellow','pink','green','mint','sky','blue','purple','lavender'] },
+    bottom: { label:'하의', colors:['black','white','gray','navy','denim','lightDenim','beige','brown','camel','khaki','burgundy','green'] },
+    shoes:  { label:'신발', colors:['white','black','brown','camel','gray','navy','burgundy'] },
   };
 
-  // 종류 (각 포지션 대표 3가지) — formality: 0(가장 캐주얼) ~ 3(가장 포멀)
   const ITEM_TYPES = {
     top: [
       { id:'tshirt', name:'티셔츠', emoji:'👕', formality:1 },
@@ -489,7 +917,6 @@
     dress:  { name:'정장양말', emoji:'🧦' },
   };
 
-  // 시그니처 룩
   const SIGNATURE = [
     { top:'white',   bottom:'denim',     shoes:'white', tag:'국민 데일리룩' },
     { top:'black',   bottom:'denim',     shoes:'white', tag:'기본 캐주얼' },
@@ -513,7 +940,7 @@
   ];
 
   // ─────────────────────────────────────────────────────────
-  // 색 매칭 점수
+  // Matching engine
   // ─────────────────────────────────────────────────────────
   const WHEEL = ['red','orange','yellow','green','blue','purple','pink'];
   function score(a, b) {
@@ -531,9 +958,7 @@
       let d = Math.abs(ai - bi);
       d = Math.min(d, WHEEL.length - d);
       if (d === 1) s += 1;
-      if (d === 2 || d === 3) {
-        if (A.tone !== 'vivid' || B.tone !== 'vivid') s += 0.5;
-      }
+      if (d === 2 || d === 3) { if (A.tone !== 'vivid' || B.tone !== 'vivid') s += 0.5; }
     }
     if (A.tone === 'vivid' && B.tone === 'vivid'
         && A.family !== B.family && !A.neutral && !B.neutral) s -= 4;
@@ -542,14 +967,10 @@
   }
   function comboScore(t, b, s) { return score(t,b) + score(t,s) + score(b,s); }
 
-  // ─────────────────────────────────────────────────────────
-  // 종류·양말 추천
-  // ─────────────────────────────────────────────────────────
   function getType(position, typeId) {
     return ITEM_TYPES[position].find(t => t.id === typeId);
   }
   function pickTypeByFormality(position, target) {
-    // 같은 형식도가 있으면 그걸로, 아니면 가장 가까운 걸로 (동률시 더 격식 있는 쪽)
     return ITEM_TYPES[position].reduce((best, t) => {
       const d  = Math.abs(t.formality - target);
       const db = Math.abs(best.formality - target);
@@ -561,32 +982,33 @@
   function recommendSocks(bottom, shoes, avgFormality) {
     const bot = COLORS[bottom], sh = COLORS[shoes];
     if (avgFormality >= 2.3) {
-      // 포멀 — 하의 톤과 매치
       if (bot.tone === 'dark' || bot.family === 'neutral' || bot.neutral) {
         return { type:'dress', color:bottom, note:'하의 톤에 맞춘 정장양말 — 격식의 정석' };
       }
       return { type:'dress', color:'black', note:'블랙 정장양말 — 한 톤 어둡게' };
     }
     if (avgFormality <= 1.2) {
-      // 캐주얼 — 발목양말
       return { type:'noShow', color: sh.tone === 'dark' ? 'black' : 'white',
         note:'발목양말 — 캐주얼의 정답' };
     }
-    // 중간
     return { type:'crew', color:'white', note:'흰 크루양말 — 무난한 중간' };
   }
 
-  // ─────────────────────────────────────────────────────────
-  // 추천 조합 생성
-  // ─────────────────────────────────────────────────────────
+  function getAvailableColors(position) {
+    if (state.useWardrobeOnly && userData?.wardrobe[position]?.length) {
+      return [...new Set(userData.wardrobe[position].map(i => i.color))];
+    }
+    return POSITIONS[position].colors;
+  }
+
   function generateCombos(anchorPos, anchorColor, anchorTypeId, count = 6) {
     const positions = ['top','bottom','shoes'];
     const others = positions.filter(p => p !== anchorPos);
     const [p1, p2] = others;
 
     const candidates = [];
-    for (const c1 of POSITIONS[p1].colors) {
-      for (const c2 of POSITIONS[p2].colors) {
+    for (const c1 of getAvailableColors(p1)) {
+      for (const c2 of getAvailableColors(p2)) {
         if (c1 === c2 && c1 === anchorColor) continue;
         const combo = { top:null, bottom:null, shoes:null };
         combo[anchorPos] = anchorColor;
@@ -598,7 +1020,6 @@
     }
     candidates.sort((a, b) => b.score - a.score);
 
-    // 시그니처 표시
     const sigs = SIGNATURE.filter(s => s[anchorPos] === anchorColor);
     const sigKeys = new Set(sigs.map(s => `${s.top}|${s.bottom}|${s.shoes}`));
     for (const c of candidates) {
@@ -610,7 +1031,6 @@
       }
     }
 
-    // 시그니처 우선 + 중복 제거
     const seen = new Set();
     const out = [];
     const sorted = [
@@ -625,7 +1045,6 @@
       if (out.length >= count) break;
     }
 
-    // 종류 및 양말 부여
     const anchorType = getType(anchorPos, anchorTypeId);
     const targetFormality = anchorType.formality;
     for (const c of out) {
@@ -639,13 +1058,11 @@
       ) / 3;
       c.avgFormality = avgF;
       c.socks = recommendSocks(c.bottom, c.shoes, avgF);
+      c.__anchorPos = anchorPos;
     }
     return out;
   }
 
-  // ─────────────────────────────────────────────────────────
-  // 노트 자동 생성
-  // ─────────────────────────────────────────────────────────
   function describeCombo(c) {
     const cs = [COLORS[c.top], COLORS[c.bottom], COLORS[c.shoes]];
     const tags = [];
@@ -685,7 +1102,88 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // UI
+  // Storage (localStorage 의사-로그인)
+  // ─────────────────────────────────────────────────────────
+  const SKEY = {
+    CURRENT: 'ocm:current',
+    USER: (name) => 'ocm:user:' + name,
+  };
+
+  let currentUser = null;
+  let userData = defaultUserData();
+
+  function defaultUserData() {
+    return { favorites: [], wardrobe: { top: [], bottom: [], shoes: [] }, history: [] };
+  }
+  function saveUserData() {
+    if (!currentUser) return;
+    localStorage.setItem(SKEY.USER(currentUser), JSON.stringify(userData));
+  }
+  function loginAs(name) {
+    name = (name || '').trim().slice(0, 20);
+    if (!name) return;
+    localStorage.setItem(SKEY.CURRENT, name);
+    currentUser = name;
+    const raw = localStorage.getItem(SKEY.USER(name));
+    userData = raw ? Object.assign(defaultUserData(), JSON.parse(raw)) : defaultUserData();
+    showApp();
+  }
+  function logout() {
+    localStorage.removeItem(SKEY.CURRENT);
+    currentUser = null;
+    userData = defaultUserData();
+    showLogin();
+  }
+  function listKnownUsers() {
+    const users = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('ocm:user:')) users.push(k.substring('ocm:user:'.length));
+    }
+    return users.sort();
+  }
+
+  function comboKey(c) {
+    return `${c.top}|${c.bottom}|${c.shoes}|${c.topType}|${c.bottomType}|${c.shoesType}|${c.__anchorPos||''}`;
+  }
+  function isFavorite(c) {
+    return userData.favorites.some(f => comboKey(f) === comboKey(c));
+  }
+  function toggleFavorite(c) {
+    const k = comboKey(c);
+    const idx = userData.favorites.findIndex(f => comboKey(f) === k);
+    if (idx >= 0) userData.favorites.splice(idx, 1);
+    else userData.favorites.push({...c, savedAt: Date.now()});
+    saveUserData();
+    updateCounts();
+  }
+
+  function addWardrobeItem(pos, typeId, colorId) {
+    const list = userData.wardrobe[pos];
+    if (list.some(i => i.type === typeId && i.color === colorId)) return false;
+    list.push({ type: typeId, color: colorId, addedAt: Date.now() });
+    saveUserData();
+    updateCounts();
+    updateWardrobeHint();
+    return true;
+  }
+  function removeWardrobeItem(pos, idx) {
+    userData.wardrobe[pos].splice(idx, 1);
+    saveUserData();
+    updateCounts();
+    updateWardrobeHint();
+  }
+
+  function recordHistory(anchorPos, anchorColor, anchorType) {
+    const last = userData.history[0];
+    if (last && last.anchorPos === anchorPos && last.anchorColor === anchorColor && last.anchorType === anchorType) return;
+    userData.history.unshift({ anchorPos, anchorColor, anchorType, at: Date.now() });
+    userData.history = userData.history.slice(0, 30);
+    saveUserData();
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // Views & UI
   // ─────────────────────────────────────────────────────────
   const tabsEl = document.getElementById('tabs');
   const typeRow = document.getElementById('typeRow');
@@ -696,13 +1194,81 @@
   const resultTitle = document.getElementById('resultTitle');
   const resultSummary = document.getElementById('resultSummary');
   const randomBtn = document.getElementById('randomBtn');
+  const wardrobeOnlyChk = document.getElementById('wardrobeOnlyChk');
+  const wardrobeHint = document.getElementById('wardrobeHint');
 
   const state = {
     anchorPos: 'top',
     anchorType: 'tshirt',
     anchorColor: null,
+    useWardrobeOnly: false,
+    view: 'match',
   };
 
+  function setView(view) {
+    state.view = view;
+    document.querySelectorAll('.view').forEach(el => {
+      el.hidden = el.id !== view + 'View';
+    });
+    document.querySelectorAll('.main-tab').forEach(b => {
+      b.classList.toggle('active', b.dataset.view === view);
+    });
+    if (view === 'favs') renderFavorites();
+    else if (view === 'wardrobe') renderWardrobeView();
+    else if (view === 'history') renderHistoryView();
+  }
+
+  function showLogin() {
+    document.getElementById('loginScreen').hidden = false;
+    document.getElementById('appView').hidden = true;
+    renderRecentUsers();
+    setTimeout(() => document.getElementById('loginInput').focus(), 50);
+  }
+  function showApp() {
+    document.getElementById('loginScreen').hidden = true;
+    document.getElementById('appView').hidden = false;
+    document.getElementById('userName').textContent = currentUser;
+    updateCounts();
+    updateWardrobeHint();
+    setView('match');
+    setAnchorPos('top');
+  }
+
+  function updateCounts() {
+    document.getElementById('favCount').textContent = userData.favorites.length;
+    const wc = userData.wardrobe.top.length + userData.wardrobe.bottom.length + userData.wardrobe.shoes.length;
+    document.getElementById('wardrobeCount').textContent = wc;
+  }
+
+  function updateWardrobeHint() {
+    if (!wardrobeHint) return;
+    const wc = userData.wardrobe.top.length + userData.wardrobe.bottom.length + userData.wardrobe.shoes.length;
+    if (wc === 0) {
+      wardrobeHint.textContent = '옷장이 비어있어요';
+    } else {
+      const missing = ['top','bottom','shoes'].filter(p => userData.wardrobe[p].length === 0);
+      if (state.useWardrobeOnly && missing.length) {
+        const label = { top:'상의', bottom:'하의', shoes:'신발' };
+        wardrobeHint.textContent = `${missing.map(m => label[m]).join('·')} 비어있음`;
+      } else {
+        wardrobeHint.textContent = `상의 ${userData.wardrobe.top.length} · 하의 ${userData.wardrobe.bottom.length} · 신발 ${userData.wardrobe.shoes.length}`;
+      }
+    }
+  }
+
+  function renderRecentUsers() {
+    const users = listKnownUsers();
+    const el = document.getElementById('recentUsers');
+    if (users.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = '<p class="recent-label">최근 사용자</p><div class="recent-chips">' +
+      users.map(u => `<button class="recent-chip" data-name="${escapeHtml(u)}">👤 ${escapeHtml(u)}</button>`).join('') +
+      '</div>';
+    el.querySelectorAll('.recent-chip').forEach(b => {
+      b.addEventListener('click', () => loginAs(b.dataset.name));
+    });
+  }
+
+  // ─── Match view ───
   function setAnchorPos(pos, opts = {}) {
     state.anchorPos = pos;
     state.anchorType = opts.type || ITEM_TYPES[pos][0].id;
@@ -714,18 +1280,23 @@
     colorLabel.textContent = `③ ${POSITIONS[pos].label} 색 선택`;
     renderTypePicker();
     renderColorGrid();
-    if (state.anchorColor) renderResult();
-    else renderEmpty();
+    if (state.anchorColor) {
+      recordHistory(state.anchorPos, state.anchorColor, state.anchorType);
+      renderResult();
+    } else {
+      renderEmpty();
+    }
   }
-
   function setAnchorType(typeId) {
     state.anchorType = typeId;
     typeRow.querySelectorAll('.type').forEach(b => {
       b.classList.toggle('active', b.dataset.type === typeId);
     });
-    if (state.anchorColor) renderResult();
+    if (state.anchorColor) {
+      recordHistory(state.anchorPos, state.anchorColor, state.anchorType);
+      renderResult();
+    }
   }
-
   function renderTypePicker() {
     const types = ITEM_TYPES[state.anchorPos];
     typeRow.innerHTML = types.map(t => {
@@ -736,9 +1307,16 @@
       b.addEventListener('click', () => setAnchorType(b.dataset.type));
     });
   }
-
   function renderColorGrid() {
-    const colors = POSITIONS[state.anchorPos].colors;
+    let colors = POSITIONS[state.anchorPos].colors;
+    if (state.useWardrobeOnly && userData.wardrobe[state.anchorPos].length) {
+      const wColors = new Set(userData.wardrobe[state.anchorPos].map(i => i.color));
+      colors = colors.filter(c => wColors.has(c));
+    }
+    if (colors.length === 0) {
+      colorGrid.innerHTML = `<div class="empty-state-small" style="grid-column: 1/-1;">옷장에 등록된 ${POSITIONS[state.anchorPos].label}가 없어요. 옷장 탭에서 추가해 주세요.</div>`;
+      return;
+    }
     colorGrid.innerHTML = colors.map(id => {
       const c = COLORS[id];
       const sel = id === state.anchorColor ? ' selected' : '';
@@ -753,103 +1331,265 @@
       btn.addEventListener('click', () => selectColor(btn.dataset.id));
     });
   }
-
   function selectColor(id) {
     state.anchorColor = id;
     colorGrid.querySelectorAll('.color-chip').forEach(b => {
       b.classList.toggle('selected', b.dataset.id === id);
     });
+    recordHistory(state.anchorPos, state.anchorColor, state.anchorType);
     renderResult();
   }
-
   function renderEmpty() {
     resultTitle.textContent = '위에서 색을 골라 주세요';
     resultSummary.textContent = '고른 색에 어울리는 나머지 두 가지 + 양말을 보여드릴게요.';
     comboList.innerHTML = `<div class="empty-state">색을 선택하면 조합이 나타납니다</div>`;
   }
 
+  function renderComboCard(c, idx) {
+    const isAnchor = (pos) => pos === c.__anchorPos ? ' anchor' : '';
+    const ROLE = { top:'상의', bottom:'하의', shoes:'신발' };
+    const item = (pos) => {
+      const col = COLORS[c[pos]];
+      const t = getType(pos, c[pos + 'Type']);
+      return `
+        <div class="item${isAnchor(pos)}">
+          <div class="icon">${t.emoji}</div>
+          <div class="color-dot" style="background:${col.hex};" title="${ROLE[pos]}: ${col.name} ${t.name}"></div>
+          <div class="name">${col.name}</div>
+          <div class="type-sub">${t.name}</div>
+          <div class="role">${ROLE[pos]}</div>
+        </div>
+      `;
+    };
+    const sockCol = COLORS[c.socks.color];
+    const sockTy = SOCK_TYPES[c.socks.type];
+    const sockItem = `
+      <div class="item socks">
+        <div class="icon">${sockTy.emoji}</div>
+        <div class="color-dot" style="background:${sockCol.hex};" title="양말: ${sockCol.name} ${sockTy.name}"></div>
+        <div class="name">${sockCol.name}</div>
+        <div class="type-sub">${sockTy.name}</div>
+        <div class="role">양말</div>
+      </div>
+    `;
+    const badge = c.signature ? `<span class="badge">⭐ 시그니처</span>` : '';
+    const fav = isFavorite(c);
+    const favBtn = `<button class="fav-btn${fav ? ' on' : ''}" data-combo-idx="${idx}" aria-label="즐겨찾기">${fav ? '♥' : '♡'}</button>`;
+    return `
+      <article class="combo${c.signature ? ' signature' : ''}" data-combo-idx="${idx}">
+        ${badge}
+        ${favBtn}
+        <div class="combo-items">
+          ${item('top')}
+          ${item('bottom')}
+          ${item('shoes')}
+          ${sockItem}
+        </div>
+        <p class="note">${escapeHtml(describeCombo(c))}</p>
+        <p class="sock-note"><strong>🧦 양말:</strong> ${escapeHtml(c.socks.note)}</p>
+      </article>
+    `;
+  }
+
+  let currentCombos = [];
   function renderResult() {
     const { anchorPos, anchorColor, anchorType } = state;
     if (!anchorColor) return renderEmpty();
 
     const anchor = COLORS[anchorColor];
     const aType = getType(anchorPos, anchorType);
-    const combos = generateCombos(anchorPos, anchorColor, anchorType, 6);
+    currentCombos = generateCombos(anchorPos, anchorColor, anchorType, 6);
 
     resultTitle.textContent =
       `${POSITIONS[anchorPos].label}가 ${anchor.name} ${aType.name}일 때 어울리는 조합`;
+    const modeLabel = state.useWardrobeOnly ? ' · 옷장 모드' : '';
     resultSummary.innerHTML =
-      `<strong>${combos.length}가지</strong> 조합 · 색·형식도·양말까지 자동 매칭`;
+      `<strong>${currentCombos.length}가지</strong> 조합${modeLabel} · 색·형식도·양말까지 자동 매칭`;
 
-    const ROLE = { top:'상의', bottom:'하의', shoes:'신발' };
-
-    comboList.innerHTML = combos.map(c => {
-      const isAnchor = (pos) => pos === anchorPos ? ' anchor' : '';
-      const item = (pos) => {
-        const col = COLORS[c[pos]];
-        const t = getType(pos, c[pos + 'Type']);
-        return `
-          <div class="item${isAnchor(pos)}">
-            <div class="icon">${t.emoji}</div>
-            <div class="color-dot" style="background:${col.hex};" title="${ROLE[pos]}: ${col.name} ${t.name}"></div>
-            <div class="name">${col.name}</div>
-            <div class="type-sub">${t.name}</div>
-            <div class="role">${ROLE[pos]}</div>
-          </div>
-        `;
-      };
-      const sockCol = COLORS[c.socks.color];
-      const sockTy = SOCK_TYPES[c.socks.type];
-      const sockItem = `
-        <div class="item socks">
-          <div class="icon">${sockTy.emoji}</div>
-          <div class="color-dot" style="background:${sockCol.hex};" title="양말: ${sockCol.name} ${sockTy.name}"></div>
-          <div class="name">${sockCol.name}</div>
-          <div class="type-sub">${sockTy.name}</div>
-          <div class="role">양말</div>
-        </div>
-      `;
-      const badge = c.signature ? `<span class="badge">⭐ 시그니처</span>` : '';
-      return `
-        <article class="combo${c.signature ? ' signature' : ''}">
-          ${badge}
-          <div class="combo-items">
-            ${item('top')}
-            ${item('bottom')}
-            ${item('shoes')}
-            ${sockItem}
-          </div>
-          <p class="note">${escapeHtml(describeCombo(c))}</p>
-          <p class="sock-note"><strong>🧦 양말:</strong> ${escapeHtml(c.socks.note)}</p>
-        </article>
-      `;
-    }).join('');
-
+    if (currentCombos.length === 0) {
+      comboList.innerHTML = `<div class="empty-state">조합을 만들 수 없습니다. 옷장 모드를 끄거나 옷장에 다른 위치의 옷을 추가해 보세요.</div>`;
+      return;
+    }
+    comboList.innerHTML = currentCombos.map((c, i) => renderComboCard(c, i)).join('');
+    attachFavHandlers(comboList, currentCombos);
     document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
+  function attachFavHandlers(root, combos) {
+    root.querySelectorAll('.fav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(btn.dataset.comboIdx, 10);
+        const combo = combos[idx];
+        toggleFavorite(combo);
+        const nowOn = isFavorite(combo);
+        btn.classList.toggle('on', nowOn);
+        btn.textContent = nowOn ? '♥' : '♡';
+        if (state.view === 'favs') renderFavorites();
+      });
+    });
+  }
+
+  // ─── Favorites view ───
+  function renderFavorites() {
+    const list = document.getElementById('favsList');
+    if (userData.favorites.length === 0) {
+      list.innerHTML = `<div class="empty-state">아직 저장한 조합이 없어요.<br>매칭 탭에서 ♡ 버튼을 눌러 보세요.</div>`;
+      return;
+    }
+    const sorted = [...userData.favorites].sort((a, b) => (b.savedAt||0) - (a.savedAt||0));
+    list.innerHTML = sorted.map((c, i) => renderComboCard(c, i)).join('');
+    attachFavHandlers(list, sorted);
+  }
+
+  // ─── Wardrobe view ───
+  function renderWardrobeView() {
+    const root = document.getElementById('wardrobeSections');
+    const emoji = { top:'👕', bottom:'👖', shoes:'👟' };
+    root.innerHTML = ['top','bottom','shoes'].map(pos => {
+      const items = userData.wardrobe[pos];
+      return `
+        <div class="wardrobe-section">
+          <h3>${emoji[pos]} ${POSITIONS[pos].label}<span class="count">${items.length}</span></h3>
+          <div class="add-form" data-pos="${pos}">
+            <select class="add-type" aria-label="종류">
+              ${ITEM_TYPES[pos].map(t => `<option value="${t.id}">${t.emoji} ${t.name}</option>`).join('')}
+            </select>
+            <select class="add-color" aria-label="색상">
+              ${POSITIONS[pos].colors.map(c => `<option value="${c}">${COLORS[c].name}</option>`).join('')}
+            </select>
+            <button class="add-btn" data-pos="${pos}">+ 추가</button>
+          </div>
+          <div class="items-grid">
+            ${items.length === 0
+              ? `<div class="empty-state-small" style="grid-column:1/-1;">등록된 옷이 없습니다.</div>`
+              : items.map((it, idx) => {
+                  const t = getType(pos, it.type);
+                  const col = COLORS[it.color];
+                  return `
+                    <div class="wardrobe-item">
+                      <div class="icon">${t.emoji}</div>
+                      <div class="color-dot" style="background:${col.hex};"></div>
+                      <div class="info">
+                        <div class="name">${col.name}</div>
+                        <div class="type-sub">${t.name}</div>
+                      </div>
+                      <button class="remove-btn" data-pos="${pos}" data-idx="${idx}" aria-label="삭제">×</button>
+                    </div>
+                  `;
+                }).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    root.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pos = btn.dataset.pos;
+        const form = btn.parentElement;
+        const type = form.querySelector('.add-type').value;
+        const color = form.querySelector('.add-color').value;
+        const added = addWardrobeItem(pos, type, color);
+        if (added) renderWardrobeView();
+        else flash(btn, '이미 있어요');
+      });
+    });
+    root.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        removeWardrobeItem(btn.dataset.pos, parseInt(btn.dataset.idx, 10));
+        renderWardrobeView();
+      });
+    });
+  }
+  function flash(btn, msg) {
+    const orig = btn.textContent;
+    btn.textContent = msg;
+    btn.disabled = true;
+    setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1200);
+  }
+
+  // ─── History view ───
+  function renderHistoryView() {
+    const list = document.getElementById('historyList');
+    if (userData.history.length === 0) {
+      list.innerHTML = `<div class="empty-state">아직 기록이 없어요.<br>매칭 탭에서 색을 골라 보세요.</div>`;
+      return;
+    }
+    list.innerHTML = `<div class="history-list">` + userData.history.map(h => {
+      const col = COLORS[h.anchorColor];
+      const t = getType(h.anchorPos, h.anchorType);
+      const label = POSITIONS[h.anchorPos].label;
+      return `
+        <div class="history-item">
+          <div class="hist-color-dot" style="background:${col.hex};"></div>
+          <div class="hist-info">
+            <div class="hist-title">${col.name} ${t.name} (${label})</div>
+            <div class="hist-time">${formatTime(h.at)}</div>
+          </div>
+          <button class="apply-btn" data-pos="${h.anchorPos}" data-color="${h.anchorColor}" data-type="${h.anchorType}">다시 적용 →</button>
+        </div>
+      `;
+    }).join('') + `</div>`;
+    list.querySelectorAll('.apply-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setView('match');
+        setAnchorPos(btn.dataset.pos, { color: btn.dataset.color, type: btn.dataset.type });
+      });
+    });
+  }
+  function formatTime(ts) {
+    const d = new Date(ts);
+    const diff = Date.now() - ts;
+    if (diff < 60_000) return '방금';
+    if (diff < 3_600_000) return Math.floor(diff/60_000) + '분 전';
+    if (diff < 86_400_000) return Math.floor(diff/3_600_000) + '시간 전';
+    return d.toLocaleDateString('ko-KR') + ' ' + d.toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'});
+  }
+
+  // ─── Utility ───
   function escapeHtml(s) {
     const div = document.createElement('div');
     div.textContent = s;
     return div.innerHTML;
   }
-
   function pickRandom() {
     const positions = Object.keys(POSITIONS);
     const pos = positions[Math.floor(Math.random() * positions.length)];
-    const colors = POSITIONS[pos].colors;
-    const col = colors[Math.floor(Math.random() * colors.length)];
+    const availColors = getAvailableColors(pos);
+    if (availColors.length === 0) {
+      alert('옷장 모드에서 ' + POSITIONS[pos].label + '에 등록된 옷이 없어요. 옷장 탭에서 추가해 주세요.');
+      return;
+    }
+    const col = availColors[Math.floor(Math.random() * availColors.length)];
     const types = ITEM_TYPES[pos];
     const type = types[Math.floor(Math.random() * types.length)].id;
     setAnchorPos(pos, { color: col, type });
   }
 
+  // ─── Event wiring ───
   tabsEl.querySelectorAll('.tab').forEach(b => {
     b.addEventListener('click', () => setAnchorPos(b.dataset.pos));
   });
   randomBtn.addEventListener('click', pickRandom);
+  document.querySelectorAll('.main-tab').forEach(b => {
+    b.addEventListener('click', () => setView(b.dataset.view));
+  });
+  wardrobeOnlyChk.addEventListener('change', (e) => {
+    state.useWardrobeOnly = e.target.checked;
+    updateWardrobeHint();
+    renderColorGrid();
+    if (state.anchorColor) renderResult();
+  });
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    loginAs(document.getElementById('loginInput').value);
+  });
+  document.getElementById('logoutBtn').addEventListener('click', logout);
 
-  setAnchorPos('top');
+  // ─── Bootstrap ───
+  const savedUser = localStorage.getItem(SKEY.CURRENT);
+  if (savedUser) loginAs(savedUser);
+  else showLogin();
 </script>
 </body>
 </html>
